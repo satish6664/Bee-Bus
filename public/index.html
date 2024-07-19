@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Booking</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="bg-gray-100" id="BgImage">
+    <header class="text-gray-900 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold">Go Bus</div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-gray-300">About</a></li>
+                    <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- User details modal -->
+    <div id="userDetailsModal"
+        class="fixed top-0 left-0 h-full w-full flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white px-8 pt-8 rounded-lg w-2/5 flex flex-col justify-center">
+            <div class="flex justify-between">
+                <span class="text-gray-600 cursor-pointer text-2xl" onclick="HideModal()">&larr;</span>
+                <span class="text-gray-600 cursor-pointer text-2xl" onclick="closeUserDetailsModal()">&times;</span>
+            </div>
+            <div class="text-2xl mb-4 shadow-lg rounded-lg bg-gray-100">
+                <div class="pl-8 pt-4">
+                    <p id="BookDate" class="text-sm"></p>
+                </div>
+                <div class="flex justify-between px-8 py-4 ">
+                    <div>
+                        <p id="DetailsFrom"></p>
+                        <p class="text-sm" id="FromTime"></p>
+                    </div>
+                    <div>
+                        <p id="DetailsTo"></p>
+                        <p class="text-sm" id="ToTime"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-8 mb-8 rounded-lg w-full flex flex-col justify-center shadow-lg rounded-lg">
+                <h4 class="text-xl font-semibold mb-4">Enter Passenger Details</h4>
+                <form id="userDetailsForm" onsubmit="openPaymentForm(event)">
+                    <div class="mb-4">
+                        <div class="mb-4" id="passengerone">
+                            <h6 class="text-xs">Passenger 1</h6>
+                            <input type="text" id="name" name="name" placeholder="Name" required
+                                class="input-field border-2">
+                            <select id="gender" name="gender" required class="input-field border-2 w-2/5 ml-3">
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-4" id="passengertwo">
+                            <h6 class="text-xs">Passenger 2</h6>
+                            <input type="text" id="name1" name="name1" placeholder="Name" class="input-field border-2">
+                            <select id="gender1" name="gender1" class="input-field border-2 w-2/5 ml-3">
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-4" id="passengerthree">
+                            <h6 class="text-xs">Passenger 3</h6>
+                            <input type="text" id="name2" name="name2" placeholder="Name" class="input-field border-2">
+                            <select id="gender2" name="gender2" class="input-field border-2 w-2/5 ml-3">
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-4" id="passengerfour">
+                            <h6 class="text-xs">Passenger 4</h6>
+                            <input type="text" id="name3" name="name3" placeholder="Name" class="input-field border-2">
+                            <select id="gender3" name="gender3" class="input-field border-2 w-2/5 ml-3">
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <!-- <input type="text" id="age" name="age" placeholder="Age" required class="input-field border-2"> -->
+                            <input type="tel" id="phone" name="phone" placeholder="Phone" required
+                                class="input-field border-2">
+                            <input type="email" id="email" name="email" placeholder="Email" required
+                                class="input-field border-2 ml-3">
+
+                        </div>
+                        <div class="mb-4">
+                            <!-- <input type="email" id="email" name="email" placeholder="Email" required class="input-field border-2"> -->
+                        </div>
+                    </div>
+                    <div id="PriceBooking" class="flex justify-between pt-8">
+                        <div>
+                            <p class="text-xs">Total price</p>
+                            <h3 class="text-xl"><span id="totalPriceBooking"></span></h3>
+                        </div>
+                        <div class="w-18">
+                            <button type="submit" id="ButtonPay" class="py-2 px-4 rounded w-full"
+                                style="border:solid black 1px;">Proceed to
+                                Payment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="paymentSection" class="hidden p-8">
+                <!-- Hardcoded payment form goes here -->
+                <h4 class="text-xl font-semibold mb-4">Choose Payment</h4>
+                <div class="mb-8">
+                    <label class="p-4"><input type="radio" name="paymentOption" value="Credit card"
+                            onchange="showPaymentDetails('Credit Card')"> Credit Card</label>
+                    <label class="p-4"><input type="radio" name="paymentOption" value="Debit Card"
+                            onchange="showPaymentDetails('Debit Card')"> Debit Card</label>
+                    <label class="p-4"><input type="radio" name="paymentOption" value="UPI"
+                            onchange="showPaymentDetails('UPI')"> UPI</label>
+                </div>
+                <div id="creditCardDetails" class="hidden mb-8">
+                    <!-- Credit card details -->
+                    <input class="p-1" type="text" id="cardholderName" placeholder="Cardholder Name" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="cardNumber" placeholder="Card Number" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="expiryDate" placeholder="Expiry Date (MM/YYYY)" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="cvv" placeholder="CVV" required class="input-field border-2">
+                </div>
+                <div id="debitCardDetails" class="hidden mb-8">
+                    <!-- Debit card details -->
+                    <input class="p-1" type="text" id="debitCardholderName" placeholder="Cardholder Name" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="debitCardNumber" placeholder="Card Number" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="debitExpiryDate" placeholder="Expiry Date (MM/YYYY)" required
+                        class="input-field border-2">
+                    <input class="p-1" type="text" id="debitCvv" placeholder="CVV" required
+                        class="input-field border-2">
+                </div>
+                <div id="upiDetails" class="hidden mb-8">
+                    <!-- UPI details -->
+                    <input class="p-1" type="text" id="upiId" placeholder="UPI ID" required
+                        class="input-field border-2">
+                </div>
+                <div class="flex justify-between">
+                    <div>
+                        <div>
+                            <p class="text-xs">Total price</p>
+                            <h3 class="text-xl"><span id="PriceBookingTwo"></span></h3>
+                        </div>
+                    </div>
+                    <div> <button type="button" onclick="postData()" class="py-2 px-4 rounded"
+                            style="border:solid black 1px;">Process Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="BgContent">
+        <div id="myModal"
+            class="modal fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 hidden">
+            <div class="h-full" style="display: flex; justify-content: center; align-items: center;">
+                <div class=" bg-white rounded">
+                    <span class="close pr-8 pt-4">&times;</span>
+                    <!-- Modal content goes here -->
+                    <div class="px-4 py-8">
+                        <div class="p-4 text-lg">
+                            <p class="text-cyan-950">Select seats</p>
+                        </div>
+                        <div class="flex">
+                            <div class="pl-8 w-1/2">Lower Seats</div>
+                            <div class="pl-12 w-1/2">Upper Berths</div>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="bg-gray-200 p-4 m-8 rounded-md">
+                                <!-- First Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"><img src="https://cdn-icons-png.flaticon.com/512/2/2087.png"
+                                            alt=""></div>
+                                    <div class="seatclass bg-gray-50" id="A1" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'A1', '599')">A1
+                                        <div class="popup" id="priceA1">Price: 20$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="B1" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'B1', '599')">B1
+                                        <div class="popup" id="priceB1">Price: 25$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="C1" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'C1', '599')">C1
+                                        <div class="popup" id="priceC1">Price: 30$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="D1" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'D1', '599')">D1
+                                        <div class="popup" id="priceD1">Price: 35$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="E1" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'E1', '599')">E1
+                                        <div class="popup" id="priceA1">Price: 20$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="F1" onmouseover="showPrice(event, '₹ 499')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'F1', '499')">F1
+                                        <div class="popup" id="priceB1">Price: 25$</div>
+                                    </div>
+
+                                </div>
+                                <!-- Second Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"></div>
+                                    <div class="seatclass bg-gray-50" id="A2" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'A2', '599')">A2
+                                        <div class="popup" id="priceA2">Price: 40$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="B2" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'B2', '599')">B2
+                                        <div class="popup" id="priceB2">Price: 45$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="C2" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'C2', '599')">C2
+                                        <div class="popup" id="priceC2">Price: 50$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="D2" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'D2', '599')">D2
+                                        <div class="popup" id="priceD2">Price: 55$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="E2" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'E2', '599')">E2
+                                        <div class="popup" id="priceA1">Price: 20$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="F2" onmouseover="showPrice(event, '₹ 499')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'F2', '499')">F2
+                                        <div class="popup" id="priceB1">Price: 25$</div>
+                                    </div>
+
+                                </div>
+                                <!-- Empty Space -->
+                                <div class="h-6"></div>
+                                <!-- Third Row (Empty) -->
+                                <div class="flex justify-between">
+                                    <div class="emptyclass"></div>
+                                    <div class="emptyclass"></div>
+                                    <div class="emptyclass"></div>
+                                    <div class="emptyclass"></div>
+                                </div>
+                                <!-- Fourth Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"></div>
+                                    <div class="seatclass bg-gray-50" id="A3" onmouseover="showPrice(event, '₹ 699')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'A3', '699')">A3
+                                        <div class="popup" id="priceA3">Price: 60$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="B3" onmouseover="showPrice(event, '₹ 699')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'B3', '699')">B3
+                                        <div class="popup" id="priceB3">Price: 65$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="C3" onmouseover="showPrice(event, '₹ 699')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'C3', '699')">C3
+                                        <div class="popup" id="priceC3">Price: 70$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="D3" onmouseover="showPrice(event, '₹ 699')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'D3', '699')">D3
+                                        <div class="popup" id="priceD3">Price: 75$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="E3" onmouseover="showPrice(event, '₹ 699')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'E3', '699')">E3
+                                        <div class="popup" id="priceA1">Price: 20$</div>
+                                    </div>
+                                    <div class="seatclass bg-gray-50" id="F3" onmouseover="showPrice(event, '₹ 599')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'F3', '599')">F3
+                                        <div class="popup" id="priceB1">Price: 25$</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="relative bg-gray-200 p-4 m-8 rounded-md">
+                                <!-- First Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"><img src="https://cdn-icons-png.flaticon.com/512/2/2087.png"
+                                            alt=""></div>
+                                    <div class="seat bg-gray-50" id="U1" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U1', '899')">U1
+                                        <div class="popup" id="priceA1">Price: 20$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U4" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U4', '899')">U4
+                                        <div class="popup" id="priceB1">Price: 25$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U7" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U7', '899')">U7
+                                        <div class="popup" id="priceC1">Price: 30$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U10" onmouseover="showPrice(event, '₹ 799')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U10', '799')">U10
+                                        <div class="popup" id="priceD1">Price: 35$</div>
+                                    </div>
+                                </div>
+                                <!-- Second Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"></div>
+                                    <div class="seat bg-gray-50" id="U2" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U2', '899')">U2
+                                        <div class="popup" id="priceA2">Price: 40$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U5" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U5', '899')">U5
+                                        <div class="popup" id="priceB2">Price: 45$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U8" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U8', '899')">U8
+                                        <div class="popup" id="priceC2">Price: 50$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U11" onmouseover="showPrice(event, '₹ 799')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U11', '799')">U11
+                                        <div class="popup" id="priceD2">Price: 55$</div>
+                                    </div>
+                                </div>
+                                <!-- Empty Space -->
+                                <div class="h-6"></div>
+                                <!-- Third Row (Empty) -->
+                                <div class="flex justify-between">
+                                    <div class="empty"></div>
+                                    <div class="empty"></div>
+                                    <div class="empty"></div>
+                                    <div class="empty"></div>
+                                </div>
+                                <!-- Fourth Row -->
+                                <div class="flex justify-between">
+                                    <div class="space"></div>
+                                    <div class="seat bg-gray-50" id="U3" onmouseover="showPrice(event, '₹ 999')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U3', '999')">U3
+                                        <div class="popup" id="priceA3">Price: 60$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U6" onmouseover="showPrice(event, '₹ 999')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U6', '999')">U6
+                                        <div class="popup" id="priceB3">Price: 65$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U9" onmouseover="showPrice(event, '₹ 999')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U9', '999')">U9
+                                        <div class="popup" id="priceC3">Price: 70$</div>
+                                    </div>
+                                    <div class="seat bg-gray-50" id="U12" onmouseover="showPrice(event, '₹ 899')"
+                                        onmouseout="hidePrice(event)" onclick="toggleSeat(event, 'U12', '899')">U12
+                                        <div class="popup" id="priceD3">Price: 75$</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex relative ml-4">
+                            <div id="selectedSeatsAndPriceDiv" class="w-1/2 px-4">
+                                <p class="text-cyan-950">Selected Seats:</p>
+                                <ul id="selectedSeatsList"></ul>
+                            </div>
+                            <div class="w-1/2 px-8 ml-4" id="PriceDiv">
+                                <p>Total Price: <span id="totalPrice">0$</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="AtleastMsg" class="text-xs text-red-900 relative pl-8 font-bold">Select atleast 1
+                                seat to continue</div>
+                            <div class="flex">
+                                <div class="w-4/5"> </div>
+                                <button onclick="openUserDetailsModal()" class="font-bold py-2 px-4 rounded mt-4 block"
+                                    style="border:solid black 1px;">Continue
+                                    to Book</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div>
+            <img class="w-full opacity-75" src="https://us.123rf.com/450wm/viktorijareut/viktorijareut1811/viktorijareut181100142/112407340-white-tourist-bus-driving-on-the-road-vector-illustration-mountain-landscape-or-background-bus.jpg" alt="">
+        </div> -->
+        <section class="py-16">
+            <div class="container bg-orange-200 mx-auto bg-white rounded-md shadow-sm flex justify-center">
+                <div class="flex flex-wrap justify-between ">
+                    <div class="w-full md:w-auto p-6">
+                        <h2 class="text-lg font-semibold mb-4">Find Your Bus</h2>
+                        <form id="searchForm"
+                            class="flex flex-wrap items-center space-y-4 md:space-y-0 mb-8 md:space-x-4">
+                            <div class="w-full md:w-40">
+                                <input class="form-select block w-full px-4 py-2 border border-gray-300 rounded-md"
+                                    type="text" id="from" placeholder="From" oninput="filterOptions('from')"
+                                    onfocus="showAllOptions('from')">
+                            </div>
+                            <div class="w-full md:w-40">
+                                <input class="form-select block w-full px-4 py-2 border border-gray-300 rounded-md"
+                                    type="text" id="to" placeholder="To" oninput="filterOptions('to')"
+                                    onfocus="showAllOptions('to')">
+                            </div>
+                            <div class="w-full md:w-40">
+                                <input type="date" id="date"
+                                    class="form-input block w-full px-4 py-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div class="w-full md:w-auto">
+                                <button type="button" id="todayBtn"
+                                    class="px-4 py-2 bg-gray-800 text-white rounded-md">Today</button>
+                            </div>
+                            <div class="w-full md:w-auto">
+                                <button type="submit" id="tomorrowBtn"
+                                    class="px-4 py-2 bg-gray-800 text-white rounded-md">Tomorrow</button>
+                            </div>
+                            <div class="w-full md:w-auto">
+                                <button type="button" onclick="Calling(event)" id="searchBtn"
+                                    class="px-4 py-2 bg-gray-800 text-white rounded-md">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <ul id="options" class="container bg-orange-200 mx-auto bg-white rounded-md shadow-sm flex justify-center">
+            </ul>
+        </section>
+        <div class="m-24" id="noBus">
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+                    <div class="text-center">
+                        <img src="https://cdni.iconscout.com/illustration/premium/thumb/error-8694026-6983265.png?f=webp"
+                            alt="" class="w-32 mx-auto">
+                        <div class="mt-4 text-xl font-bold">Oops!</div>
+                        <div class="text-gray-600">There are no services on this route for the selected date.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="busgrid" class="grid grid-cols-1 gap-8">
+
+        </div>
+    </div>
+    <section class="py-16" id="section0">
+        <div class="container bg-white rounded-md shadow-md mx-auto p-6 text-center">
+            <h2 class="text-3xl font-semibold mb-4">Special Offer</h2>
+            <p class="text-lg text-gray-900 mb-8">Book your bus tickets now and get 20% off on your next journey!
+                Limited time offer, grab your tickets today.</p>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+    <section class="py-16" id="section1">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-semibold mb-8">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white rounded-md shadow-md">
+                    <p class="text-lg mb-4">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut
+                        vehicula diam, at sodales turpis."</p>
+                    <p class="text-gray-600">- John Doe</p>
+                </div>
+                <div class="p-6 bg-white rounded-md shadow-md">
+                    <p class="text-lg mb-4">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium."</p>
+                    <p class="text-gray-600">- Jane Smith</p>
+                </div>
+                <div class="p-6 bg-white rounded-md shadow-md">
+                    <p class="text-lg mb-4">"Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                        suscipit laboriosam."</p>
+                    <p class="text-gray-600">- Michael Johnson</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Destinations Section -->
+    <section class="py-16" id="section2">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-semibold mb-8">Featured Destinations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="p-6 rounded-md bg-white shadow-md">
+                    <div class="flex justify-center items-center mb-4 rounded-md"
+                        style="hfrom_location: 200px; overflow: hidden;"><img
+                            src="https://media.digitalnomads.world/wp-content/uploads/2021/02/20120605/goa.jpg"
+                            alt="Destination 1" class="mb-4 rounded-md"></div>
+                    <h3 class="text-xl font-semibold mb-2">City A</h3>
+                    <p class="text-gray-900">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="p-6 rounded-md bg-white shadow-md">
+                    <div class="flex justify-center items-center mb-4 rounded-md"
+                        style="hfrom_location: 200px; overflow: hidden;"><img
+                            src="https://imgnew.outlookindia.com/public/uploads/articles/2020/5/20/Tirupati-Temple_20180806.jpg"
+                            alt="Destination 2" class="mb-4 rounded-md"></div>
+                    <h3 class="text-xl font-semibold mb-2">City B</h3>
+                    <p class="text-gray-900">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium.</p>
+                </div>
+                <div class="p-6 rounded-md bg-white shadow-md">
+                    <div class="flex justify-center items-center mb-4 rounded-md"
+                        style="hfrom_location: 200px; overflow: hidden;"><img
+                            src="https://thedesigntourist.com/wp-content/uploads/2024/02/leh-ladakh-bike-trip.jpg"
+                            alt="Destination 3" class="mb-4 rounded-md"></div>
+                    <h3 class="text-xl font-semibold mb-2">City C</h3>
+                    <p class="text-gray-900">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                        suscipit laboriosam.</p>
+                </div>
+                <div class="p-6 rounded-md bg-white shadow-md">
+                    <div class="flex justify-center items-center mb-4 rounded-md"
+                        style="hfrom_location: 200px; overflow: hidden;"><img
+                            src="https://lp-cms-production.imgix.net/2019-06/9483508eeee2b78a7356a15ed9c337a1-bengaluru-bangalore.jpg"
+                            alt="Destination 4" class="mb-4 rounded-md"></div>
+                    <h3 class="text-xl font-semibold mb-2">City D</h3>
+                    <p class="text-gray-900">Nostrum exercitationem ullam corporis suscipit laboriosam.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="text-grey-800 py-8">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">© 2022 Bus Tickets. All rights reserved.</div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-300">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-300">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="./script.js">
+    </script>
+</body>
+
+</html>
