@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+require('dotenv').config(); 
 
 const app = express();
 app.use(bodyParser.json());
@@ -9,10 +10,10 @@ app.use(express.json());
 
 // Create connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'agile123',
-    database: 'christopher'
+    host: 'process.env.127.0.0.1',
+    user: 'process.env.root',
+    password: 'process.env.agile123',
+    database: 'process.env.christopher'
 });
 
 // Connect to database
