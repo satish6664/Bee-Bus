@@ -28,7 +28,6 @@ fetch('/api/buses', {
     })
     .then(data => {
         allBusesData = data; // Store all buses data
-console.log(data)
         var allValues = [];
         data.forEach(function (item) {
             allValues.push(item.from_location, item.to_location);
