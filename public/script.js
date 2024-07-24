@@ -155,6 +155,8 @@ function setActiveInput(inputId) {
 }
 
 function filterOptions(inputId) {
+    document.getElementById("from").style.border = "1px solid grey";
+    document.getElementById("to").style.border = "1px solid grey";
     var input, filter, ul, li, i;
     input = document.getElementById(inputId);
     filter = input.value.toUpperCase();
@@ -189,6 +191,8 @@ function showAllOptions(inputId) {
 }
 
 function selectOption(event) {
+    document.getElementById("from").style.border = "1px solid grey";
+    document.getElementById("to").style.border = "1px solid grey";
     var selectedOption = event.target;
     if (selectedOption.tagName === 'LI') {
         var input = document.getElementById(activeInputId);
@@ -288,12 +292,12 @@ function Calling(event) {
         document.getElementById("from").style.border = "1px solid red";
         return;
     } else if (toValue == '') {
-        document.getElementById("from").style.border = "none";
+        document.getElementById("from").style.border = "1px solid grey";
         document.getElementById("to").style.border = "1px solid red";
         return;
     } else {
-        document.getElementById("from").style.border = "none";
-        document.getElementById("to").style.border = "none";
+        document.getElementById("from").style.border = "1px solid grey";
+        document.getElementById("to").style.border = "1px solid grey";
     }
 
     document.getElementById("section0").style.display = "none";
