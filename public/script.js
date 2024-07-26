@@ -589,3 +589,40 @@ function HideModal() {
     document.getElementById('myModal').style.display = 'block';
     document.getElementById('userDetailsModal').classList.add('hidden');
 }
+
+function CallingBus(event) {
+    event.preventDefault(); // Prevent the form from reloading the page
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const busData = {
+        bus_name: formData.get('bus_name'),
+        from_location: formData.get('from_location'),
+        to_location: formData.get('to_location'),
+        departure_date: formData.get('departure_date'),
+        departure_time: formData.get('departure_time'),
+        arrival_time: formData.get('arrival_time'),
+        bus_type: formData.get('bus_type'),
+        seat_capacity: formData.get('seat_capacity'),
+        available_seats: formData.get('available_seats'),
+        price: formData.get('price')
+    };
+
+    fetch('/addBus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(busData)
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log(result);
+        alert('Bus added successfully!');
+        form.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add bus.');
+    });
+}

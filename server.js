@@ -2,14 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 require('dotenv').config();
-const cors = require('cors');
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: 'https://bee-bus.vercel.app' // Adjust this to your frontend URL if different
-}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(express.json());
@@ -99,6 +94,46 @@ app.post('/api/passengers', (req, res) => {
       return;
     }
     res.json({ message: 'Passenger added', id: result.insertId });
+  });
+});
+
+// POST route to handle form submission
+app.post('/addBus', (req, res) => {
+  const {
+      bus_name,
+      from_location,
+      to_location,
+      departure_date,
+      departure_time,
+      arrival_time,
+      bus_type,
+      seat_capacity,
+      available_seats,
+      price
+  } = req.body;
+  const sql = `
+  INSERT INTO buses (bus_name, from_location, to_location, departure_date, departure_time, arrival_time, bus_type, seat_capacity, available_seats, price)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  
+  const values = [
+    bus_name,
+    from_location,
+    to_location,
+    departure_date,
+    `${departure_date} ${departure_time}`,
+    `${departure_date} ${arrival_time}`,
+    bus_type,
+    seat_capacity,
+    available_seats,
+    price
+  ];
+  
+  console.log(values)
+  db.query(sql, values, (err, result) => {
+      if (err) throw err;
+      console.log('Bus added:', result);
+      res.send('Bus added successfully!');
   });
 });
 

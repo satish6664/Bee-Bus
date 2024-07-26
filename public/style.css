@@ -90,3 +90,43 @@
     /* opacity: 0.5; */
 
 }
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-item {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-item img {
+    cursor: pointer;
+}   
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px; /* Make dropdown rounded */
+    overflow: hidden; /* Ensure rounded corners are visible */
+}
+
+    .dropdown li a {
+        display: block;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: black;
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+.dropdown li a:hover {
+    background-color: #ddd;
+}
+.menu-item:hover .dropdown {
+    display: block;
+}
