@@ -78,47 +78,47 @@ function displayFilteredData(filteredData) {
     filteredData.forEach((item, index) => {
         // Create busInfo HTML
         let busInfo = `
-        <div class="container mx-auto w-3/5 mt-8 bg-white rounded-xl shadow-md overflow-hidden p-4 bus-card">
-<div class="flex justify-between items-center px-24">
-    <div class="w-1/3">
-        <div class="text-sm text-gray-600 ">
-            <p class="font-semibold text-lg text-gray-800">${item.bus_name}</p>
-            <p class="text-xs text-gray-700">${item.bus_type}</p>
-        </div>
-    </div>
-            <div class="w-2/3 text-center">
-        <div class="text-sm text-gray-600 flex items-center justify-between">
-            <div>
-                <p class="font-semibold text-lg text-gray-800">${item.arrival_time.slice(11, 16)}</p>
-                <p class="text-xs text-gray-700">${item.from_location}</p>
-            </div>
-            <div class="text-2xl text-gray-600 mx-4">→</div>
-            <div>
-                <p class="font-semibold text-lg text-gray-800">${item.departure_time.slice(11, 16)}</p>
-                <p class="text-xs text-gray-700">${item.to_location}</p>
+        <div class="container mx-auto w-full md:w-3/5 mt-8 bg-white rounded-xl shadow-md overflow-hidden p-4 bus-card">
+    <div class="flex flex-row md:flex-row justify-between items-center md:px-24">
+        <div class="w-full md:w-1/3 mb-4 md:mb-0">
+            <div class="text-sm text-gray-600 ">
+                <p class="font-semibold text-lg text-gray-800">${item.bus_name}</p>
+                <p class="text-xs text-gray-700">${item.bus_type}</p>
             </div>
         </div>
-    </div>
-        <div class="w-1/3 flex justify-end">
-        <div class="text-sm text-gray-600 ">
-            <p class="text-xs text-gray-700">Starting At</p>
-            <p class="font-semibold text-lg text-gray-800">₹ ${item.price}</p>
+        <div class="w-full md:w-2/3 text-center mb-4 md:mb-0">
+            <div class="text-sm text-gray-600 flex flex-row md:flex-row items-center justify-between">
+                <div class="mb-2 md:mb-0">
+                    <p class="font-semibold text-lg text-gray-800">${item.arrival_time.slice(11, 16)}</p>
+                    <p class="text-xs text-gray-700">${item.from_location}</p>
+                </div>
+                <div class="text-2xl text-gray-600 mx-4">→</div>
+                <div class="mb-2 md:mb-0">
+                    <p class="font-semibold text-lg text-gray-800">${item.departure_time.slice(11, 16)}</p>
+                    <p class="text-xs text-gray-700">${item.to_location}</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/3 flex justify-end mb-4 md:mb-0">
+            <div class="text-sm text-gray-600">
+                <p class="text-xs text-gray-700">Starting At</p>
+                <p class="font-semibold text-lg text-gray-800">₹ ${item.price}</p>
+            </div>
         </div>
     </div>
-</div>
-<div class="flex justify-end mt-6">
-    <div class="w-1/3 flex justify-start items-center px-32"><span class="fa fa-star checked"> &nbsp;</span>4.3</div>
-<div class="flex w-1/3 justify-center">
-    <div class="text-center">
-        <p class="text-lg font-semibold text-gray-800">${item.available_seats}</p>
+    <div class="flex flex-row md:flex-row justify-end mt-6">
+        <div class="w-full md:w-1/3 flex justify-start items-center mb-4 md:mb-0 md:px-32"><span class="fa fa-star checked"> &nbsp;</span>4.3</div>
+        <div class="flex w-full md:w-1/3 justify-center mb-4 md:mb-0">
+            <div class="text-center">
+                <p class="text-lg font-semibold text-gray-800">${item.available_seats}</p>
         <p class="text-xs">  Seats Available</p>
     </div>
 </div>
 
-<div class="flex w-1/3 justify-end px-20">
-    <button class="font-bold px-2 rounded book-button hover:bg-gray-300" style="border:solid black 1px;">Show Seats</button>
+<div class="flex w-full md:w-1/3 justify-end mb-4 md:mb-0 md:px-20">
+            <button class="font-bold text-sm md:text-base px-2 py-1 m-2 rounded book-button hover:bg-gray-300" style="border: solid black 1px;">Show Seats</button>
 </div></div>
-</div>
+            </div>
 `;
         // Append busInfo to busgrid
         busgrid.innerHTML += busInfo;
