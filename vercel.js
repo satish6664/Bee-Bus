@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "test-db-connection.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "public/*",
       "use": "@vercel/static"
     }
@@ -14,6 +18,10 @@
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
+    },
+    {
+      "src": "/test-db-connection",
+      "dest": "/test-db-connection.js"
     },
     {
       "src": "/(.*)",
