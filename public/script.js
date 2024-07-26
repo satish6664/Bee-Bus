@@ -81,36 +81,36 @@ function displayFilteredData(filteredData) {
         <div class="container mx-auto w-3/5 mt-8 bg-white rounded-xl shadow-md overflow-hidden p-4 bus-card">
 <div class="flex justify-between items-center px-24">
     <div class="w-1/3">
-        <div class="text-sm text-gray-600 ">
-            <p class="font-semibold text-lg text-gray-800">${item.bus_name}</p>
-            <p class="text-xs text-gray-700">${item.bus_type}</p>
+            <div class="text-sm text-gray-600 ">
+                <p class="font-semibold text-lg text-gray-800">${item.bus_name}</p>
+                <p class="text-xs text-gray-700">${item.bus_type}</p>
+            </div>
         </div>
-    </div>
             <div class="w-2/3 text-center">
         <div class="text-sm text-gray-600 flex items-center justify-between">
             <div>
-                <p class="font-semibold text-lg text-gray-800">${item.arrival_time.slice(11, 16)}</p>
-                <p class="text-xs text-gray-700">${item.from_location}</p>
-            </div>
-            <div class="text-2xl text-gray-600 mx-4">→</div>
+                    <p class="font-semibold text-lg text-gray-800">${item.arrival_time.slice(11, 16)}</p>
+                    <p class="text-xs text-gray-700">${item.from_location}</p>
+                </div>
+                <div class="text-2xl text-gray-600 mx-4">→</div>
             <div>
-                <p class="font-semibold text-lg text-gray-800">${item.departure_time.slice(11, 16)}</p>
-                <p class="text-xs text-gray-700">${item.to_location}</p>
+                    <p class="font-semibold text-lg text-gray-800">${item.departure_time.slice(11, 16)}</p>
+                    <p class="text-xs text-gray-700">${item.to_location}</p>
+                </div>
             </div>
         </div>
-    </div>
         <div class="w-1/3 flex justify-end">
         <div class="text-sm text-gray-600 ">
-            <p class="text-xs text-gray-700">Starting At</p>
-            <p class="font-semibold text-lg text-gray-800">₹ ${item.price}</p>
+                <p class="text-xs text-gray-700">Starting At</p>
+                <p class="font-semibold text-lg text-gray-800">₹ ${item.price}</p>
+            </div>
         </div>
     </div>
-</div>
 <div class="flex justify-end mt-6">
     <div class="w-1/3 flex justify-start items-center px-32"><span class="fa fa-star checked"> &nbsp;</span>4.3</div>
 <div class="flex w-1/3 justify-center">
-    <div class="text-center">
-        <p class="text-lg font-semibold text-gray-800">${item.available_seats}</p>
+            <div class="text-center">
+                <p class="text-lg font-semibold text-gray-800">${item.available_seats}</p>
         <p class="text-xs">  Seats Available</p>
     </div>
 </div>
@@ -118,7 +118,7 @@ function displayFilteredData(filteredData) {
 <div class="flex w-1/3 justify-end px-20">
     <button class="font-bold px-2 rounded book-button hover:bg-gray-300" style="border:solid black 1px;">Show Seats</button>
 </div></div>
-</div>
+            </div>
 `;
         // Append busInfo to busgrid
         busgrid.innerHTML += busInfo;
@@ -178,6 +178,14 @@ function filterOptions(inputId) {
 }
 
 function showAllOptions(inputId) {
+    if(inputId=='from'){
+        document.querySelector('.optionsdiv').classList.remove('md:px-72')
+        document.querySelector('.optionsdiv').classList.add('md:px-28')
+    }
+    else{
+        document.querySelector('.optionsdiv').classList.remove('md:px-28')
+        document.querySelector('.optionsdiv').classList.add('md:px-72')
+    }
     var ul = document.getElementById("options");
     ul.innerHTML = ''; // Clear previous options
     // var options = ["Apple", "Orange", "Banana", "Pineapple", "Strawberry", "Grapes"];
