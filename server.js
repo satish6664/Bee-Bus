@@ -2,10 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 
 // Middleware
+app.use(cors({
+  origin: 'https://bee-bus.vercel.app' // Adjust this to your frontend URL if different
+}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(express.json());
